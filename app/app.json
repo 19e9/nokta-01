@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Kampus Takip Audit Host",
+    "slug": "kampus-takip-audit-host",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "../assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "scheme": "campustodoaudit",
+    "plugins": [
+      "expo-router"
+    ],
+    "splash": {
+      "image": "../assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f4efe4"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "../assets/adaptive-icon.png",
+        "backgroundColor": "#f4efe4"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "../assets/favicon.png"
+    },
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}

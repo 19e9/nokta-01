@@ -1,0 +1,16 @@
+export const palette = {
+  ink: '#132826',
+  copy: '#4f6761',
+  mist: '#f4efe4',
+  card: '#fffdf8',
+  pine: '#1f4d47',
+  moss: '#2f6b5f',
+  amber: '#d68b1d',
+  amberSoft: '#f4d7a0',
+  redSoft: '#fde8df',
+  redText: '#ae3e1f',
+  greenSoft: '#dbeee3',
+  greenText: '#23614b',
+  line: '#ddd4c5',
+  white: '#ffffff',
+};
