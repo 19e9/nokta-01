@@ -15,10 +15,17 @@ export default function NewTaskRoute() {
   const [dueLabel, setDueLabel] = useState('');
   const [priority, setPriority] = useState<TaskPriority>('Normal');
   const [category, setCategory] = useState<TaskCategory>('Ders');
+  const [showErrors, setShowErrors] = useState(false);
+
+  const titleError = !title.trim() ? 'Baslik gerekli.' : '';
+  const descriptionError = !description.trim() ? 'Aciklama gerekli.' : '';
+  const dueLabelError = !dueLabel.trim() ? 'Zaman etiketi gerekli.' : '';
+  const hasErrors = Boolean(titleError || descriptionError || dueLabelError);
 
   const handleSubmit = async () => {
-    if (!title.trim() || !description.trim() || !dueLabel.trim()) {
-      Alert.alert('Eksik Bilgi', 'Baslik, aciklama ve zaman alani bos birakilamaz.');
+    if (hasErrors) {
+      setShowErrors(true);
+      Alert.alert('Eksik Bilgi', 'Gerekli alanlari tamamlayip tekrar dene.');
       return;
     }
 
@@ -56,6 +63,7 @@ export default function NewTaskRoute() {
               placeholderTextColor="#9aa7a4"
               style={styles.input}
             />
+            {showErrors && titleError ? <Text style={styles.errorText}>{titleError}</Text> : null}
           </View>
 
           <View style={styles.field}>
@@ -70,6 +78,9 @@ export default function NewTaskRoute() {
               textAlignVertical="top"
               style={[styles.input, styles.textArea]}
             />
+            {showErrors && descriptionError ? (
+              <Text style={styles.errorText}>{descriptionError}</Text>
+            ) : null}
           </View>
 
           <View style={styles.field}>
@@ -81,6 +92,9 @@ export default function NewTaskRoute() {
               placeholderTextColor="#9aa7a4"
               style={styles.input}
             />
+            {showErrors && dueLabelError ? (
+              <Text style={styles.errorText}>{dueLabelError}</Text>
+            ) : null}
           </View>
 
           <OptionPillGroup
@@ -97,8 +111,18 @@ export default function NewTaskRoute() {
             onSelect={setCategory}
           />
 
-          <Pressable onPress={() => void handleSubmit()} style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Kaydet ve panele don</Text>
+          <Text style={styles.helperText}>
+            Tum zorunlu alanlar dolunca buton aktif kalir ve gorev paneliyle detay ekranina akar.
+          </Text>
+
+          <Pressable
+            disabled={hasErrors}
+            onPress={() => void handleSubmit()}
+            style={[styles.submitButton, hasErrors && styles.submitButtonDisabled]}
+          >
+            <Text style={[styles.submitButtonText, hasErrors && styles.submitButtonTextDisabled]}>
+              Kaydet ve panele don
+            </Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -140,8 +164,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fffcf6',
     color: palette.ink,
   },
+  errorText: {
+    color: palette.redText,
+    fontSize: 13,
+    fontWeight: '700',
+  },
   textArea: {
     minHeight: 120,
+  },
+  helperText: {
+    color: palette.copy,
+    lineHeight: 21,
   },
   submitButton: {
     borderRadius: 18,
@@ -149,8 +182,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: palette.amber,
   },
+  submitButtonDisabled: {
+    backgroundColor: palette.amberSoft,
+  },
   submitButtonText: {
     color: '#2c1d06',
     fontWeight: '800',
+  },
+  submitButtonTextDisabled: {
+    color: '#8b6a2f',
   },
 });
