@@ -19,7 +19,7 @@ export function TaskCard({ task, onOpenTask, onToggleTask }: TaskCardProps) {
 
         <View style={[styles.badge, task.completed ? styles.doneBadge : styles.openBadge]}>
           <Text style={[styles.badgeText, task.completed && styles.doneBadgeText]}>
-            {task.completed ? 'Bitti' : 'Acil'}
+            {task.completed ? 'Bitti' : task.priority}
           </Text>
         </View>
       </View>

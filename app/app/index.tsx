@@ -10,7 +10,7 @@ import { TASK_FILTERS, type TaskFilter } from '@/src/types/task';
 
 export default function HomeRoute() {
   const router = useRouter();
-  const { tasks, toggleTask } = useTasks();
+  const { hydrated, tasks, toggleTask } = useTasks();
   const [filter, setFilter] = useState<TaskFilter>('Tumu');
 
   const totalTasks = tasks.length;
@@ -27,7 +27,7 @@ export default function HomeRoute() {
     }
 
     return tasks;
-  })();
+  })().slice().sort((left, right) => Number(left.completed) - Number(right.completed));
 
   return (
     <View style={styles.screen}>
@@ -81,6 +81,17 @@ export default function HomeRoute() {
           </View>
         }
         ItemSeparatorComponent={() => <View style={{ height: 14 }} />}
+        ListFooterComponent={
+          hydrated ? null : (
+            <View style={styles.loadingCard}>
+              <Text style={styles.loadingTitle}>Liste hazirlaniyor</Text>
+              <Text style={styles.loadingText}>
+                Kaydedilen gorevler cihaz deposundan yuklenirken kisa bir audit-guvenli bekleme
+                gosteriyoruz.
+              </Text>
+            </View>
+          )
+        }
         ListEmptyComponent={
           <View style={styles.emptyCard}>
             <Text style={styles.emptyTitle}>Filtre bu anda bos</Text>
@@ -159,6 +170,23 @@ const styles = StyleSheet.create({
   helperLinkText: {
     color: palette.pine,
     fontWeight: '800',
+  },
+  loadingCard: {
+    marginTop: 18,
+    borderRadius: 24,
+    padding: 18,
+    backgroundColor: '#f7f1e6',
+    borderWidth: 1,
+    borderColor: palette.line,
+    gap: 8,
+  },
+  loadingTitle: {
+    color: palette.ink,
+    fontWeight: '800',
+  },
+  loadingText: {
+    color: palette.copy,
+    lineHeight: 21,
   },
   emptyCard: {
     borderRadius: 24,

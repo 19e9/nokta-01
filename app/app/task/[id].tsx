@@ -50,6 +50,14 @@ export default function TaskDetailRoute() {
         />
 
         <View style={styles.card}>
+          <View style={[styles.statusBanner, task.completed ? styles.statusBannerDone : styles.statusBannerOpen]}>
+            <Text style={[styles.statusBannerText, task.completed ? styles.statusBannerDoneText : styles.statusBannerOpenText]}>
+              {task.completed
+                ? 'Bu gorev tamamlandi olarak kayitli.'
+                : 'Bu gorev halen aktif ve takip bekliyor.'}
+            </Text>
+          </View>
+
           <View style={styles.block}>
             <Text style={styles.blockLabel}>Aciklama</Text>
             <Text style={styles.blockText}>{task.description}</Text>
@@ -105,6 +113,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: palette.line,
     gap: 18,
+  },
+  statusBanner: {
+    borderRadius: 18,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  statusBannerOpen: {
+    backgroundColor: '#faecd8',
+  },
+  statusBannerDone: {
+    backgroundColor: palette.greenSoft,
+  },
+  statusBannerText: {
+    fontWeight: '700',
+  },
+  statusBannerOpenText: {
+    color: '#88550a',
+  },
+  statusBannerDoneText: {
+    color: palette.greenText,
   },
   block: {
     gap: 8,
