@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MetricCard } from '@/src/components/MetricCard';
@@ -12,6 +13,23 @@ export default function HomeRoute() {
   const router = useRouter();
   const { hydrated, tasks, toggleTask } = useTasks();
   const [filter, setFilter] = useState<TaskFilter>('Tumu');
+
+  useEffect(() => {
+    const routeFirstTimeUsers = async () => {
+      if (!hydrated) {
+        return;
+      }
+
+      const hasSeenGuide = await AsyncStorage.getItem('campus-todo/has-seen-guide');
+
+      if (!hasSeenGuide) {
+        await AsyncStorage.setItem('campus-todo/has-seen-guide', '1');
+        router.push('/settings');
+      }
+    };
+
+    void routeFirstTimeUsers();
+  }, [hydrated, router]);
 
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((task) => task.completed).length;
